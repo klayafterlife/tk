@@ -35,7 +35,7 @@
         </div>
 
         <div v-if="evoList.length == 0 && isEvo" class="pt-5 mb-5">
-          오늘은 진화한 친구가 없습니다...
+          진화한 친구가 없습니다...
         </div>
       </div>
     </div>
