@@ -71,6 +71,7 @@ export default {
 #header {
   position: absolute;
   top: 2rem;
+  /* font-size: 1rem; */
 }
 
 a:hover {
