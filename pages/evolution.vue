@@ -111,8 +111,6 @@ export default {
     },
 
     evolution(idx) {
-      console.log(this.myNft)
-      console.log(this.evoList)
       this.isEvo = true;
 
       switch(idx) {
