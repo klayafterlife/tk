@@ -21,7 +21,8 @@
 
       <div v-else>
         <div class="mb-5">
-          <a class="link" @click="evolution(1)">22-02-10</a>
+          <a class="link pr-5" @click="evolution(1)">22-02-10</a>
+          <a class="link" @click="evolution(2)">22-02-11</a>
         </div>
 
         <div v-if="evoList.length > 0" class="pt-5 mb-2 row">
@@ -45,7 +46,7 @@
 <script>
 import NavHeader from '@/components/NavHeader.vue';
 import { KAL_ADDR, KAL_ABI } from '@/plugin/kal.js';
-import { e0210 } from '@/plugin/evo.js';
+import { e0210, e0211 } from '@/plugin/evo.js';
 
 export default {
   components: {
@@ -110,11 +111,17 @@ export default {
     },
 
     evolution(idx) {
+      console.log(this.myNft)
+      console.log(this.evoList)
       this.isEvo = true;
 
       switch(idx) {
         case 1: 
           this.evoList = e0210.filter(e => this.myNft.includes(`${e}`));
+        break;
+
+        case 2: 
+          this.evoList = e0211.filter(e => this.myNft.includes(`${e}`));
         break;
       }
     }
