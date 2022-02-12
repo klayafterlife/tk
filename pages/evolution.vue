@@ -17,9 +17,10 @@
     <a v-if="!connected" class="link" @click="start">연결하기</a>
 
     <div v-else>
-      <div class="mb-5">
-        <a class="link pr-5" @click="evolution(1)">22-02-10</a>
-        <a class="link" @click="evolution(2)">22-02-11</a>
+      <div class="row data-box">
+        <a class="link col-md-3 mb-2 mt-2" @click="evolution(1)">22-02-10</a>
+        <a class="link col-md-3 mb-2 mt-2" @click="evolution(2)">22-02-11</a>
+        <a class="link col-md-3 mb-2 mt-2" @click="evolution(3)">22-02-12</a>
       </div>
 
       <div v-if="evoList.length > 0" class="pt-5 mb-2 row">
@@ -32,7 +33,7 @@
         >{{ e }}</a>
       </div>
 
-      <div v-if="evoList.length == 0 && isEvo" class="pt-5 mb-5">
+      <div v-if="evoList.length == 0 && isEvo" class="pt-5 mb-4">
         진화한 친구가 없습니다...
       </div>
     </div>
@@ -42,7 +43,7 @@
 <script>
 import NavHeader from '@/components/NavHeader.vue';
 import { KAL_ADDR, KAL_ABI } from '@/plugin/kal.js';
-import { e0210, e0211 } from '@/plugin/evo.js';
+import { e0210, e0211, e0212 } from '@/plugin/evo.js';
 
 export default {
   components: {
@@ -108,8 +109,20 @@ export default {
         case 2: 
           this.evoList = e0211.filter(e => this.myNft.includes(`${e}`));
         break;
+
+        case 3: 
+          this.evoList = e0212.filter(e => this.myNft.includes(`${e}`));
+        break;
       }
     }
   }
 }
 </script>
+
+<style scoped>
+.data-box {
+  border: 2px solid;
+  border-radius: 10px;
+  padding: 15px;
+}
+</style>
