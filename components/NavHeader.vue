@@ -1,7 +1,9 @@
 <template>
   <div id="header">
-    <a v-if="!$route.path.includes('evolution')" class="col-4 link" @click="goToPage('evolution')">진화 확인</a>
-    <a v-else class="col-4 link" @click="goToPage('/')">메인</a>
+    <header-link link="/evolution" text="진화 확인" />
+    <!-- <header-link link="/text/gathering" text="채집" /> -->
+    <!-- <header-link link="/text/evolution" text="진화" /> -->
+
     <a class="col-4 link disable">채집</a>
     <a class="col-4 link disable">진화</a>
 
@@ -13,12 +15,10 @@
 </template>
 
 <script>
+import HeaderLink from './HeaderLink.vue';
+
 export default {
-  methods: {
-    goToPage(page) {
-      this.$router.push(page);
-    }
-  }
+  components: { HeaderLink }
 }
 </script>
 
