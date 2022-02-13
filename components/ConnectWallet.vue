@@ -1,5 +1,5 @@
 <template>
-  <a class="link" @click="walletConnect">연결하기</a>
+  <a class="link" @click="walletConnect">지갑 연결</a>
 </template>
 
 <script>
