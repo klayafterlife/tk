@@ -20,7 +20,7 @@
         <a class="link col-md-3 mb-2 mt-2" @click="evolution(1)">22-02-10</a>
         <a class="link col-md-3 mb-2 mt-2" @click="evolution(2)">22-02-11</a>
         <a class="link col-md-3 mb-2 mt-2" @click="evolution(3)">22-02-12</a>
-        <a class="link col-md-3 mb-2 mt-2" @click="evolution(3)">22-02-13</a>
+        <a class="link col-md-3 mb-2 mt-2" @click="evolution(4)">22-02-13</a>
       </div>
 
       <div v-if="isEvo" class="pt-5 mb-2 row">
