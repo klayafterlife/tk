@@ -24,7 +24,7 @@
 
       <div class="box pt-3 pb-3">
         <a class="link mr-5" @click="changeTab(1)">심기</a>
-        <a class="link disable">먹이기</a>
+        <a class="link disable" @click="alert('개발 중입니다')">먹이기</a>
         <!-- <a class="link disable" @click="changeTab(2)">먹이기</a> -->
       </div>
 
@@ -86,6 +86,8 @@ export default {
 
             if(eventLen > cnt) {
               alert(`${eventLen - cnt}개의 텍스트 케플러가 태어났습니다!`);
+            } else {
+              alert('씨앗에서 텍스트 케플러가 자라나지 못했습니다...');
             }
           }
         });

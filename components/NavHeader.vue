@@ -6,7 +6,7 @@
 
     <div class="mt-4">
       <a class="col-6 link" href="https://open.kakao.com/o/gTLz1aTd" target="_blank">오픈카톡</a>
-      <a class="col-6 link" href="https://klu.bs/pfp/0xBDC08A18bdb404a0dca2A536e06B586a3088Ba47" target="_blank">클럽스</a>
+      <a class="col-6 link" href="https://klu.bs/pfp/0x0550AF17bE1030E15d0d0dCE980E6929a04FcC55" target="_blank">클럽스</a>
     </div>
   </div>
 </template>
