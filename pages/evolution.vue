@@ -42,7 +42,7 @@
 
 <script>
 import NavHeader from '@/components/NavHeader.vue';
-import { KAL_ADDR, KAL_ABI } from '@/plugin/kal.js';
+import { ABI, ADDR } from '@/plugin/tkUtil.js';
 import { e0210, e0211, e0212 } from '@/plugin/evo.js';
 
 export default {
@@ -75,24 +75,19 @@ export default {
 
       setTimeout(() => {
         const myContract = new caver.klay.Contract(
-          KAL_ABI,
-          KAL_ADDR
+          ABI,
+          ADDR
         );
 
-        myContract.methods.dashboard('0xf1919F40af70394762bed30E98d95DdFbac79080').call({
-          from : klaytn.selectedAddress
-        }, (err, result) => {
-          if(err) {
-            alert('다시 시도해주세요');
-          }
-
+        myContract.methods.balance().call().then(res => {
           klaytn.on('accountsChanged', () => {
             this.$router.go();
           });
 
-          if(result[3]) {
-            this.myNft = result[3];
+          if(res[0]) {
+            this.myNft = res[0];
           }
+
           this.connected = true;
         });
       }, 500);
