@@ -20,9 +20,12 @@
 
     <ConnectWallet v-if="!connected" />
     <div v-else>
+      <div class="text-right pr-5 mb-2">내 씨앗: {{ seed }}</div>
+
       <div class="box pt-3 pb-3">
-        <a class="link mr-5" @click="tab = 1">심기</a>
-        <a class="link disable" @click="tab = 2">먹이기</a>
+        <a class="link mr-5" @click="changeTab(1)">심기</a>
+        <a class="link disable">먹이기</a>
+        <!-- <a class="link disable" @click="changeTab(2)">먹이기</a> -->
       </div>
 
       <div v-if="tab === 1" class="row mt-5">
@@ -53,6 +56,14 @@ export default {
   },
 
   methods: {
+    changeTab(idx) {
+      if(this.seed == 0) {
+        alert('씨앗이 없습니다');
+      } else {
+        this.tab = idx;
+      }
+    },
+
     async getTk(cnt) {
       await klaytn.enable()
       
@@ -67,8 +78,10 @@ export default {
           alert('다시 시도해주세요');
         })
         .on('receipt', receipt => {
+          this.seedChange(cnt * -1);
+
           if(receipt.events) {
-            const eventLen = Object.keys(receipt).length;
+            const eventLen = Object.keys(receipt.events).length;
 
             if(eventLen > cnt) {
               alert(`${eventLen - cnt}개의 텍스트 케플러가 태어났습니다!`);

@@ -1,4 +1,4 @@
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   computed: {
@@ -6,6 +6,12 @@ export default {
       connected: 'dashboard/connected',
       keplerIds: 'dashboard/keplerIds',
       seed: 'dashboard/seed'
+    })
+  },
+
+  methods: {
+    ...mapMutations({
+      seedChange: 'dashboard/seedChange'
     })
   }
 }
