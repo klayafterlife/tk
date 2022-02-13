@@ -42,10 +42,11 @@ export default {
 
         myContract.methods.getSeed().send({
           from : klaytn.selectedAddress,
-          gas: 800000
+          gas: 8000000
         })
-        .on('error', () => {
-          alert('다시 시도해주세요');
+        .on('error', err => {
+          alert('에러가 발생했습니다');
+          console.log(err);
         })
         .on('receipt', receipt => {
           if(receipt.events[0]) {
@@ -54,7 +55,7 @@ export default {
 
             this.seedChange(val);
           } else {
-            alert('채집할 수 있는 씨앗이 없습니다.');
+            alert('채집할 수 있는 씨앗이 없습니다');
           }
         });
       }, 500);

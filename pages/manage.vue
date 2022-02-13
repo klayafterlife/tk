@@ -74,8 +74,9 @@ export default {
           from : klaytn.selectedAddress,
           gas: 800000
         })
-        .on('error', () => {
-          alert('다시 시도해주세요');
+        .on('error', err => {
+          alert('에러가 발생했습니다 다시 시도해주세요');
+          console.log(err);
         })
         .on('receipt', receipt => {
           this.seedChange(cnt * -1);
