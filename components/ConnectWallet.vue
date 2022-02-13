@@ -1,0 +1,46 @@
+<template>
+  <a class="link" @click="walletConnect">연결하기</a>
+</template>
+
+<script>
+import { mapMutations } from 'vuex';
+import { ABI, ADDR } from '@/plugin/tkUtil.js';
+
+export default {
+  methods: {
+    async walletConnect() {
+      const { klaytn } = window;
+      if (!klaytn || !klaytn.isKaikas) {
+        alert('KAIKAS 확장프로그램 설치가 필요합니다');
+        return;
+      }
+      if(klaytn.networkVersion !== 8217) {
+        alert('Cypress Main Network로 변경해주세요')
+        return;
+      }
+
+      await klaytn.enable().then(() => {
+        const myContract = new caver.klay.Contract(
+          ABI,
+          ADDR
+        );
+
+        myContract.methods.balance().call().then(res => {
+          klaytn.on('accountsChanged', () => {
+            alert('지갑이 변경되었습니다')
+            location.reload();
+          });
+
+          if(res) {
+            this.connect(res);
+          }
+        });
+      });
+    },
+
+    ...mapMutations({
+      connect: 'dashboard/connect'
+    })
+  }
+}
+</script>

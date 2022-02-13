@@ -14,8 +14,7 @@
       아래 버튼을 통해 카이카스 지갑 연결 후 날짜를 클릭하면 해당 일자에 진화한 친구들의 번호를 확인할 수 있습니다.
     </div>
 
-    <a v-if="!connected" class="link" @click="start">연결하기</a>
-
+    <ConnectWallet v-if="!connected" />
     <div v-else>
       <div class="row data-box">
         <a class="link col-md-3 mb-2 mt-2" @click="evolution(1)">22-02-10</a>
@@ -23,7 +22,7 @@
         <a class="link col-md-3 mb-2 mt-2" @click="evolution(3)">22-02-12</a>
       </div>
 
-      <div v-if="evoList.length > 0" class="pt-5 mb-2 row">
+      <div v-if="isEvo" class="pt-5 mb-2 row">
         <a
           v-for="e in evoList"
           :key="e"
@@ -33,7 +32,7 @@
         >{{ e }}</a>
       </div>
 
-      <div v-if="evoList.length == 0 && isEvo" class="pt-5 mb-4">
+      <div v-if="!isEvo && isSelected" class="pt-5 mb-4">
         진화한 친구가 없습니다...
       </div>
     </div>
@@ -41,72 +40,45 @@
 </template>
 
 <script>
-import NavHeader from '@/components/NavHeader.vue';
-import { ABI, ADDR } from '@/plugin/tkUtil.js';
+import dashboard from '@/mixins/dashboard.js'
+import ConnectWallet from '@/components/ConnectWallet.vue';
 import { e0210, e0211, e0212 } from '@/plugin/evo.js';
 
 export default {
   components: {
-    NavHeader
+    ConnectWallet
   },
+
+  mixins: [ dashboard ],
 
   data() {
     return {
-      myNft: [],
       evoList: [],
-      connected: false,
-      isEvo: false
+      isSelected: false
+    }
+  },
+
+  computed: {
+    isEvo() {
+      return this.evoList.length > 0;
     }
   },
 
   methods: {
-    async start() {
-      const { klaytn } = window;
-      if (!klaytn || !klaytn.isKaikas) {
-        alert('KAIKAS 확장프로그램 설치가 필요합니다');
-        return;
-      }
-      if(klaytn.networkVersion !== 8217) {
-        alert('Cypress Main Network로 변경해주세요')
-        return;
-      }
-
-      await klaytn.enable();
-
-      setTimeout(() => {
-        const myContract = new caver.klay.Contract(
-          ABI,
-          ADDR
-        );
-
-        myContract.methods.balance().call().then(res => {
-          klaytn.on('accountsChanged', () => {
-            this.$router.go();
-          });
-
-          if(res[0]) {
-            this.myNft = res[0];
-          }
-
-          this.connected = true;
-        });
-      }, 500);
-    },
-
     evolution(idx) {
-      this.isEvo = true;
+      this.isSelected = true;
 
       switch(idx) {
         case 1: 
-          this.evoList = e0210.filter(e => this.myNft.includes(`${e}`));
+          this.evoList = e0210.filter(e => this.keplerIds.includes(`${e}`));
         break;
 
         case 2: 
-          this.evoList = e0211.filter(e => this.myNft.includes(`${e}`));
+          this.evoList = e0211.filter(e => this.keplerIds.includes(`${e}`));
         break;
 
         case 3: 
-          this.evoList = e0212.filter(e => this.myNft.includes(`${e}`));
+          this.evoList = e0212.filter(e => this.keplerIds.includes(`${e}`));
         break;
       }
     }
