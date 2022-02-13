@@ -1,7 +1,7 @@
 <template>
   <div id="header">
     <header-link link="/evolution" text="진화 확인" />
-    <header-link link="/text/gathering" text="채집" />
+    <header-link link="/seed" text="채집" />
     <!-- <header-link link="/text/evolution" text="생육" /> -->
 
     <a class="col-4 link disable">생육</a>
