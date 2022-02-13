@@ -8,9 +8,11 @@ export const getters = {
   connected(state) {
     return state.connected;
   },
+
   keplerIds(state) {
     return state.keplerIds;
   },
+
   seed(state) {
     return state.seed;
   }
@@ -20,6 +22,10 @@ export const mutations = {
   connect(state, res) {
     state.connected = true;
     state.keplerIds = res[0];
-    state.seed = res[1];
+    state.seed = parseInt(res[1]);
+  },
+
+  seedChange(state, num) {
+    state.seed += num;
   }
 }

@@ -51,6 +51,8 @@ export default {
           if(receipt.events[0]) {
             const val = parseInt(receipt.events[0].raw.data, 16);
             alert(`${val}개의 씨앗을 얻었습니다!`);
+
+            this.seedChange(val);
           } else {
             alert('채집할 수 있는 씨앗이 없습니다.');
           }
