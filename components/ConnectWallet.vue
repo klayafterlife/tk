@@ -19,23 +19,27 @@ export default {
         return;
       }
 
-      await klaytn.enable().then(() => {
+      await klaytn.enable()
+      
+      setTimeout(() => {
         const myContract = new caver.klay.Contract(
           ABI,
           ADDR
         );
 
         myContract.methods.balance().call().then(res => {
-          klaytn.on('accountsChanged', () => {
-            alert('지갑이 변경되었습니다')
-            location.reload();
-          });
-
           if(res) {
             this.connect(res);
+
+            klaytn.on('accountsChanged', () => {
+              alert('지갑이 변경되었습니다')
+              location.reload();
+            });
+          } else {
+            alert('다시 시도해주세요');
           }
         });
-      });
+      }, 500);
     },
 
     ...mapMutations({

@@ -35,14 +35,16 @@ export default {
 
   methods: {
     async getSeed() {
-      await klaytn.enable().then(() => {
+      await klaytn.enable()
+      
+      setTimeout(() => {
         const myContract = new caver.klay.Contract(ABI, ADDR);
 
         myContract.methods.getSeed().send({
           from : klaytn.selectedAddress,
           gas: 800000
         })
-        .on('error', (err) => {
+        .on('error', () => {
           alert('다시 시도해주세요');
         })
         .on('receipt', receipt => {
@@ -53,7 +55,7 @@ export default {
             alert('채집할 수 있는 씨앗이 없습니다.');
           }
         });
-      });
+      }, 500);
     }
   },
 }
