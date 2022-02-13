@@ -16,36 +16,33 @@
       우주 씨앗을 텍스트 케플러에게 주면 10% 확률로 진화합니다.
     </div>
 
-    <a class="link" @click="seed">채집하기</a>
+    <ConnectWallet v-if="!connected" />
+    <a v-else class="link" @click="getSeed">채집하기</a>
   </div>
 </template>
 
 <script>
+import dashboard from '@/mixins/dashboard.js'
+import ConnectWallet from '@/components/ConnectWallet.vue';
 import { ABI, ADDR } from '@/plugin/tkUtil.js';
 
 export default {
+  components: {
+    ConnectWallet
+  },
+
+  mixins: [ dashboard ],
+
   methods: {
-    async seed() {
-      const { klaytn } = window;
-      if (!klaytn || !klaytn.isKaikas) {
-        alert('KAIKAS 확장프로그램 설치가 필요합니다');
-        return;
-      }
-      if(klaytn.networkVersion !== 8217) {
-        alert('Cypress Main Network로 변경해주세요')
-        return;
-      }
-
-      await klaytn.enable();
-
-      setTimeout(() => {
+    async getSeed() {
+      await klaytn.enable().then(() => {
         const myContract = new caver.klay.Contract(ABI, ADDR);
 
         myContract.methods.getSeed().send({
           from : klaytn.selectedAddress,
           gas: 800000
         })
-        .on('error', () => {
+        .on('error', (err) => {
           alert('다시 시도해주세요');
         })
         .on('receipt', receipt => {
@@ -55,8 +52,8 @@ export default {
           } else {
             alert('채집할 수 있는 씨앗이 없습니다.');
           }
-        })
-      }, 500);
+        });
+      });
     }
   },
 }
