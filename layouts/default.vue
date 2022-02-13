@@ -18,7 +18,8 @@ export default {
     const { klaytn } = window;
     if(klaytn) {
       klaytn.on('networkChanged', () => {
-        this.$router.go();
+        alert('네트워크가 변경되었습니다')
+        location.reload();
       });
     }
   }
