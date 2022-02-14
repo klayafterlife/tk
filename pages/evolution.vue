@@ -21,6 +21,7 @@
         <a class="link col-md-3 mb-2 mt-2" @click="evolution(2)">22-02-11</a>
         <a class="link col-md-3 mb-2 mt-2" @click="evolution(3)">22-02-12</a>
         <a class="link col-md-3 mb-2 mt-2" @click="evolution(4)">22-02-13</a>
+        <a class="link col-md-3 mb-2 mt-2" @click="evolution(5)">22-02-14</a>
       </div>
 
       <div v-if="isEvo" class="pt-5 mb-2 row">
@@ -43,7 +44,7 @@
 <script>
 import dashboard from '@/mixins/dashboard.js'
 import ConnectWallet from '@/components/ConnectWallet.vue';
-import { e0210, e0211, e0212, e0213 } from '@/plugin/evo.js';
+import { e0210, e0211, e0212, e0213, e0214 } from '@/plugin/evo.js';
 
 export default {
   components: {
@@ -84,6 +85,10 @@ export default {
 
         case 4: 
           this.evoList = e0213.filter(e => this.keplerIds.includes(`${e}`));
+        break;
+
+        case 5: 
+          this.evoList = e0214.filter(e => this.keplerIds.includes(`${e}`));
         break;
       }
     }
