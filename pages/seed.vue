@@ -45,8 +45,10 @@ export default {
           gas: 8000000
         })
         .on('error', err => {
-          alert('에러가 발생했습니다');
-          console.log(err);
+          if(!`${err}`.includes('User denied transaction signature')) {
+            alert('에러가 발생했습니다');
+            console.log(err);
+          };
         })
         .on('receipt', receipt => {
           if(receipt.events[0]) {

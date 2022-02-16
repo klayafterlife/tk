@@ -75,8 +75,10 @@ export default {
           gas: 800000
         })
         .on('error', err => {
-          alert('에러가 발생했습니다 다시 시도해주세요');
-          console.log(err);
+          if(!`${err}`.includes('User denied transaction signature')) {
+            alert('에러가 발생했습니다');
+            console.log(err);
+          };
         })
         .on('receipt', receipt => {
           this.seedChange(cnt * -1);
