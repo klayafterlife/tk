@@ -23,6 +23,7 @@
         <a class="link col-md-3 mb-2 mt-2" @click="evolution(4)">22-02-13</a>
         <a class="link col-md-3 mb-2 mt-2" @click="evolution(5)">22-02-14</a>
         <a class="link col-md-3 mb-2 mt-2" @click="evolution(6)">22-02-15</a>
+        <a class="link col-md-3 mb-2 mt-2" @click="evolution(7)">22-02-16</a>
       </div>
 
       <div v-if="isEvo" class="pt-5 mb-2 row">
@@ -45,7 +46,7 @@
 <script>
 import dashboard from '@/mixins/dashboard.js'
 import ConnectWallet from '@/components/ConnectWallet.vue';
-import { e0210, e0211, e0212, e0213, e0214, e0215 } from '@/plugin/evo.js';
+import { successList } from '@/plugin/evo.js';
 
 export default {
   components: {
@@ -73,27 +74,31 @@ export default {
 
       switch(idx) {
         case 1: 
-          this.evoList = e0210.filter(e => this.keplerIds.includes(`${e}`));
+          this.evoList = successList[0].filter(e => this.keplerIds.includes(`${e}`));
         break;
 
         case 2: 
-          this.evoList = e0211.filter(e => this.keplerIds.includes(`${e}`));
+          this.evoList = successList[1].filter(e => this.keplerIds.includes(`${e}`));
         break;
 
         case 3: 
-          this.evoList = e0212.filter(e => this.keplerIds.includes(`${e}`));
+          this.evoList = successList[2].filter(e => this.keplerIds.includes(`${e}`));
         break;
 
         case 4: 
-          this.evoList = e0213.filter(e => this.keplerIds.includes(`${e}`));
+          this.evoList = successList[3].filter(e => this.keplerIds.includes(`${e}`));
         break;
 
         case 5: 
-          this.evoList = e0214.filter(e => this.keplerIds.includes(`${e}`));
+          this.evoList = successList[4].filter(e => this.keplerIds.includes(`${e}`));
         break;
 
         case 6: 
-          this.evoList = e0215.filter(e => this.keplerIds.includes(`${e}`));
+          this.evoList = successList[5].filter(e => this.keplerIds.includes(`${e}`));
+        break;
+
+        case 7: 
+          this.evoList = successList[6].filter(e => this.keplerIds.includes(`${e}`));
         break;
       }
     }
