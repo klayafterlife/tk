@@ -1,8 +1,8 @@
 <template>
   <div id="header">
-    <header-link link="/evolution" text="진화 확인" />
-    <header-link link="/seed" text="채집" />
-    <header-link link="/manage" text="관리" />
+    <a class="col-4 link" @click="goToPage('/')">메인</a>
+    <a class="col-4 link" @click="goToPage('/seed')">채집</a>
+    <a class="col-4 link" @click="goToPage('/manage')">관리</a>
 
     <div class="mt-4">
       <a class="col-6 link" href="https://open.kakao.com/o/gTLz1aTd" target="_blank">오픈카톡</a>
@@ -12,9 +12,11 @@
 </template>
 
 <script>
-import HeaderLink from './HeaderLink.vue';
-
 export default {
-  components: { HeaderLink }
+  methods: {
+    goToPage(page) {
+      this.$router.push(page);
+    }
+  }
 }
 </script>

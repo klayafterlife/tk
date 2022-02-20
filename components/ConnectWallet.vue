@@ -4,7 +4,7 @@
 
 <script>
 import { mapMutations } from 'vuex';
-import { ABI, ADDR } from '@/plugin/tkUtil.js';
+import { ABI, ADDR } from '@/plugin/manage.js';
 
 export default {
   methods: {

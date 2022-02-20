@@ -15,7 +15,7 @@
 
     <div class="mb-5">
       산란 이후 다시 새싹이 된 텍스트 케플러는 레벨이 오릅니다.<br />
-      최고 레벨은 9레벨입니다.
+      최고 9레벨이며, 레벨에 따라 채집되는 씨앗이 늘어납니다.
     </div>
 
     <ConnectWallet v-if="!connected" />
@@ -24,14 +24,32 @@
 
       <div class="box pt-3 pb-3">
         <a class="link mr-5" @click="changeTab(1)">심기</a>
-        <a class="link disable" @click="alert('개발 중입니다')">먹이기</a>
-        <!-- <a class="link disable" @click="changeTab(2)">먹이기</a> -->
+        <a class="link" @click="changeTab(2)">먹이기</a>
       </div>
 
       <div v-if="tab === 1" class="row mt-5">
-        <a class="link col" @click="getTk(1)">1개</a>
-        <a class="link col" @click="getTk(5)">5개</a>
-        <a class="link col" @click="getTk(10)">10개</a>
+        <a class="link col" @click="getText(1)">1개</a>
+        <a class="link col" @click="getText(5)">5개</a>
+        <a class="link col" @click="getText(10)">10개</a>
+      </div>
+
+      <div v-if="tab === 2" class="mt-5">
+        <div class="row mb-5">
+          <p :class="['col', {'active': evoCnt === 1}]" @click="evoCnt = 1">1개</p>
+          <p :class="['col', {'active': evoCnt === 5}]" @click="evoCnt = 5">5개</p>
+          <p :class="['col', {'active': evoCnt === 10}]" @click="evoCnt = 10">10개</p>
+        </div>
+
+        <div class="row">
+          <a
+            v-for="id in textIds"
+            :key="id"
+            class="link col-md-3 mb-3"
+            @click="tryEvolution(id)"
+          >
+            {{ id }}
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -40,7 +58,7 @@
 <script>
 import dashboard from '@/mixins/dashboard.js'
 import ConnectWallet from '@/components/ConnectWallet.vue';
-import { ABI, ADDR } from '@/plugin/tkManage.js';
+import { ABI, ADDR } from '@/plugin/manage.js';
 
 export default {
   components: {
@@ -51,7 +69,8 @@ export default {
 
   data() {
     return {
-      tab: 0
+      tab: 0,
+      evoCnt: 1
     }
   },
 
@@ -59,12 +78,13 @@ export default {
     changeTab(idx) {
       if(this.seed == 0) {
         alert('씨앗이 없습니다');
+        this.tab = 0;
       } else {
         this.tab = idx;
       }
     },
 
-    async getTk(cnt) {
+    async getText(cnt) {
       await klaytn.enable()
       
       setTimeout(() => {
@@ -83,13 +103,50 @@ export default {
         .on('receipt', receipt => {
           this.seedChange(cnt * -1);
 
+          const newText = [];
+          for(const key in receipt.events) {
+            const raw = receipt.events[key].raw;
+            if(raw.data === '0x') {
+              newText.push(parseInt(raw.topics[3], 16));
+            }
+          }
+
+          if(newText.length > 0) {
+            alert(`${newText.length}개의 텍스트 케플러가 태어났습니다!`);
+            this.addText(newText);
+          } else {
+            alert('씨앗에서 텍스트 케플러가 자라나지 못했습니다...');
+          }
+        });
+      }, 500);
+    },
+
+    async tryEvolution(id) {
+      await klaytn.enable()
+      
+      setTimeout(() => {
+        const myContract = new caver.klay.Contract(ABI, ADDR);
+
+        myContract.methods.multiEvo(this.evoCnt, id).send({
+          from : klaytn.selectedAddress,
+          gas: 800000
+        })
+        .on('error', err => {
+          if(!`${err}`.includes('User denied transaction signature')) {
+            alert('에러가 발생했습니다');
+            console.log(err);
+          };
+        })
+        .on('receipt', receipt => {
+          this.seedChange(this.evoCnt * -1);
+
           if(receipt.events) {
             const eventLen = Object.keys(receipt.events).length;
 
-            if(eventLen > cnt) {
-              alert(`${eventLen - cnt}개의 텍스트 케플러가 태어났습니다!`);
+            if(eventLen > this.evoCnt) {
+              alert(`${id}번 텍스트 케플러가 ${eventLen - this.evoCnt}번 진화했습니다!`);
             } else {
-              alert('씨앗에서 텍스트 케플러가 자라나지 못했습니다...');
+              alert('텍스트 케플러가 진화하지 못했습니다...');
             }
           }
         });
@@ -109,5 +166,10 @@ export default {
   color: grey;
   text-decoration: none;
   cursor: auto;
+}
+
+.active {
+  color: grey;
+  text-decoration: line-through;
 }
 </style>

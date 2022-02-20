@@ -1,19 +1,16 @@
 <template>
   <div class="container">
-    <h1 class="mb-5 mt-5 pb-3">Universe Seed</h1>
+    <h1 class="mb-5 mt-5 pb-5">Universe Seed</h1>
 
     <div class="mb-3">
-      우주 씨앗은 오리지널 케플러를 통해 얻을 수 있습니다.<br />
-      오리지널 케플러는 매일 하나의 우주 씨앗을 만듭니다.
-    </div>
-
-    <div class="mb-3">
-      우주 씨앗은 텍스트 케플러를 관리하는데 사용됩니다.
+      우주 씨앗은 케플러를 통해 얻을 수 있습니다.<br />
+      오리지널 케플러는 매일 하나의 우주 씨앗을 만듭니다.<br />
+      텍스트 케플러는 매일 최대 10개의 우주 씨앗을 만듭니다.
     </div>
 
     <div class="mb-5">
       우주 씨앗을 심으면 텍스트 케플러가 태어납니다.<br />
-      텍스트 케플러에게 우주 씨앗을 먹이면 진화합니다.
+      우주 씨앗을 먹은 텍스트 케플러는 진화합니다.
     </div>
 
     <ConnectWallet v-if="!connected" />
@@ -24,7 +21,7 @@
 <script>
 import dashboard from '@/mixins/dashboard.js'
 import ConnectWallet from '@/components/ConnectWallet.vue';
-import { ABI, ADDR } from '@/plugin/tkUtil.js';
+import { ABI, ADDR } from '@/plugin/manage.js';
 
 export default {
   components: {

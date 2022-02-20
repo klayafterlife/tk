@@ -5,13 +5,15 @@ export default {
     ...mapGetters({
       connected: 'dashboard/connected',
       keplerIds: 'dashboard/keplerIds',
+      textIds: 'dashboard/textIds',
       seed: 'dashboard/seed'
     })
   },
 
   methods: {
     ...mapMutations({
-      seedChange: 'dashboard/seedChange'
+      seedChange: 'dashboard/seedChange',
+      addText: 'dashboard/addText'
     })
   }
 }
