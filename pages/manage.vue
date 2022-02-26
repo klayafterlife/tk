@@ -59,6 +59,7 @@
 import dashboard from '@/mixins/dashboard.js'
 import ConnectWallet from '@/components/ConnectWallet.vue';
 import { ABI, ADDR } from '@/plugin/manage.js';
+import axios from 'axios';
 
 export default {
   components: {
@@ -103,17 +104,17 @@ export default {
         .on('receipt', receipt => {
           this.seedChange(cnt * -1);
 
-          const newText = [];
+          let newCnt = 0;
           for(const key in receipt.events) {
             const raw = receipt.events[key].raw;
             if(raw.data === '0x') {
-              newText.push(parseInt(raw.topics[3], 16));
+              this.addText(parseInt(raw.topics[3], 16));
+              newCnt += 1;
             }
           }
 
-          if(newText.length > 0) {
-            alert(`${newText.length}개의 텍스트 케플러가 태어났습니다!`);
-            this.addText(newText);
+          if(newCnt > 0) {
+            alert(`${newCnt}개의 텍스트 케플러가 태어났습니다!`);
           } else {
             alert('씨앗에서 텍스트 케플러가 자라나지 못했습니다...');
           }
@@ -140,14 +141,34 @@ export default {
         .on('receipt', receipt => {
           this.seedChange(this.evoCnt * -1);
 
-          if(receipt.events) {
-            const eventLen = Object.keys(receipt.events).length;
-
-            if(eventLen > this.evoCnt) {
-              alert(`${id}번 텍스트 케플러가 ${eventLen - this.evoCnt}번 진화했습니다!`);
+          let resCnt = 0;
+          let newCnt = 0;
+          for(const key in receipt.events) {
+            if(key == 'Evolution') {
+              resCnt += 1;
             } else {
-              alert('텍스트 케플러가 진화하지 못했습니다...');
+              const raw = receipt.events[key].raw;
+              if(raw.data === '0x') {
+                this.addText(parseInt(raw.topics[3], 16));
+                newCnt += 1;
+              }
             }
+          }
+
+          if(resCnt > 0) {
+            alert(`${id}번 텍스트 케플러가 ${resCnt}번 진화했습니다!`);
+            if(newCnt > 0) {
+              alert(`산란으로 새로운 텍스트 케플러가 태어났습니다!`);
+            }
+
+            try {
+              axios.get(`https://api.klu.bs/v2/pfp/0x0550AF17bE1030E15d0d0dCE980E6929a04FcC55/${id}/metadata/cache`);
+            } catch {
+              console.log('metadata update fail');
+            }
+
+          } else {
+            alert('텍스트 케플러가 진화하지 못했습니다...');
           }
         });
       }, 500);
