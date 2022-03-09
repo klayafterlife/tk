@@ -35,9 +35,9 @@
 
       <div v-if="tab === 2" class="mt-5">
         <div class="row mb-5">
-          <p :class="['col', {'active': evoCnt === 1}]" @click="evoCnt = 1">1개</p>
-          <p :class="['col', {'active': evoCnt === 5}]" @click="evoCnt = 5">5개</p>
-          <p :class="['col', {'active': evoCnt === 10}]" @click="evoCnt = 10">10개</p>
+          <p :class="['col', {'active': evoCnt === 1}]" @click="changeEvoCnt(1)">1개</p>
+          <p :class="['col', {'active': evoCnt === 5}]" @click="changeEvoCnt(5)">5개</p>
+          <p :class="['col', {'active': evoCnt === 10}]" @click="changeEvoCnt(10)">10개</p>
         </div>
 
         <div class="row">
@@ -85,7 +85,19 @@ export default {
       }
     },
 
+    changeEvoCnt(cnt) {
+      if(this.seed < cnt) {
+        return alert('씨앗이 부족합니다');
+      }
+
+      this.evoCnt = cnt;
+    },
+
     async getText(cnt) {
+      if(this.seed < cnt) {
+        return alert('씨앗이 부족합니다');
+      }
+
       await klaytn.enable()
       
       setTimeout(() => {
@@ -118,6 +130,8 @@ export default {
           } else {
             alert('씨앗에서 텍스트 케플러가 자라나지 못했습니다...');
           }
+
+          this.changeTab(1);
         });
       }, 500);
     },
@@ -170,6 +184,8 @@ export default {
           } else {
             alert('텍스트 케플러가 진화하지 못했습니다...');
           }
+
+          this.changeTab(2);
         });
       }, 500);
     }
