@@ -18,7 +18,7 @@
     </div>
 
     <ConnectWallet v-if="!connected" />
-    <a v-else class="link" @click="runLotto">추첨하기</a>
+    <a v-else class="link" @click="runLotto">뽑기</a>
   </div>
 </template>
 
