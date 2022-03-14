@@ -12,7 +12,7 @@
     
     <div class="row">
       <a class="link col-6" @click="$router.go()">돌아가기</a>
-      <a class="link col-6" href="https://twitter.com/blanky_nftdev" target="_blank">개발자 혼내러 가기</a>
+      <a class="link col-6" href="https://twitter.com/blanky_nftdev" target="_blank">신고하기</a>
     </div>
 
   </div>
