@@ -4,7 +4,7 @@
 
     <div class="mb-3">
       케또는 <a class="link" href="https://twitter.com/UppxS" target="_blank">축복님</a>의 아이디어로 탄생했습니다.<br />
-      2 KLAY, 10%의 확률, 메타세포 케플러!
+      1 KLAY, 10%의 확률, 메타세포 케플러!
     </div>
 
     <div class="mb-3">
@@ -43,7 +43,7 @@ export default {
 
         myContract.methods.lotto().send({
           from : klaytn.selectedAddress,
-          value: caver.utils.toPeb('2', 'KLAY'),
+          value: caver.utils.toPeb('1', 'KLAY'),
           gas: 8000000
         })
         .on('error', err => {
@@ -54,7 +54,7 @@ export default {
         })
         .on('receipt', receipt => {
           const val = parseInt(receipt.events[0].raw.data, 16);
-           if(val === 2) {
+           if(val === 1) {
             alert(`${val}개의 씨앗을 얻었습니다!`);
 
             this.seedChange(val);
