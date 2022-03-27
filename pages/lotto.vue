@@ -17,8 +17,8 @@
       케또는 재미있게 메타세포를 얻을 수 있는 소소한 즐거움과 동시에 FP 반등을 위한 케플러 락업을 추구합니다.
     </div>
 
-    <ConnectWallet v-if="!connected" />
-    <a v-else class="link" @click="runLotto">뽑기</a>
+    <!-- <ConnectWallet v-if="!connected" />
+    <a v-else class="link" @click="runLotto">뽑기</a> -->
   </div>
 </template>
 
